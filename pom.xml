@@ -2,15 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.nesscomputing</groupId>
-    <artifactId>ness-oss-parent</artifactId>
-    <version>33</version>
+    <groupId>org.syslog4j</groupId>
+    <artifactId>syslog4j-parent</artifactId>
+    <version>1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>ness-syslog4j</artifactId>
-  <version>0.9.47-NESS-9-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>syslog4j, Ness Computing style</name>
+  <artifactId>syslog4j</artifactId>
+  <version>0.9.47-NESS-2-SNAPSHOT</version>
+  <name>${project.artifactId}</name>
   <url>http://www.syslog4j.org</url>
 
   <licenses>
@@ -38,6 +37,15 @@
   <build>
     <pluginManagement>
       <plugins>
+	<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -98,7 +106,7 @@
     <dependency>
       <groupId>net.java.dev.jna</groupId>
       <artifactId>jna</artifactId>
-      <version>4.1.0</version>
+      <version>4.3.0</version>
       <optional>true</optional>
     </dependency>
 
@@ -117,8 +125,8 @@
         <version>2.2.0</version>
         <exclusions>
           <exclusion>
-            <groupId>com.nesscomputing</groupId>
-            <artifactId>ness-syslog4j</artifactId>
+            <groupId>org.syslog4j</groupId>
+            <artifactId>syslog4j</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
