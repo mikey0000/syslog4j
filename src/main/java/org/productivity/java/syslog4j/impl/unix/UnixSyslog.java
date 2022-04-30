@@ -125,6 +125,7 @@ public class UnixSyslog extends AbstractSyslog {
         // NO-OP
     }
 
+    @Override
     public void log(SyslogMessageProcessorIF messageProcessor, SyslogLevel level, String message) {
         write(level,message,this.unixSyslogConfig);
     }

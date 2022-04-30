@@ -230,6 +230,10 @@ public abstract class AbstractSyslog implements SyslogIF {
         return _message;
     }
 
+    public void log(SyslogMessageProcessorIF messageProcessor, SyslogLevel level, String message) {
+        log(messageProcessor, level, null, message);
+    }
+
     public void log(SyslogMessageProcessorIF messageProcessor, SyslogLevel level, String localProcId, String message) {
         String _message = null;
 
