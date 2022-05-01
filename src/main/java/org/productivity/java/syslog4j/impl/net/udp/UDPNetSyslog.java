@@ -20,7 +20,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-import org.productivity.java.syslog4j.SyslogLevel;
 import org.productivity.java.syslog4j.SyslogRuntimeException;
 import org.productivity.java.syslog4j.impl.AbstractSyslogWriter;
 import org.productivity.java.syslog4j.impl.net.AbstractNetSyslog;
@@ -37,6 +36,8 @@ import org.productivity.java.syslog4j.impl.net.AbstractNetSyslog;
 * @version $Id: UDPNetSyslog.java,v 1.18 2010/10/27 06:18:10 cvs Exp $
 */
 public class UDPNetSyslog extends AbstractNetSyslog {
+    private static final long serialVersionUID = 5259485504549037999L;
+
     protected DatagramSocket socket = null;
 
     public void initialize() throws SyslogRuntimeException {
@@ -65,7 +66,7 @@ public class UDPNetSyslog extends AbstractNetSyslog {
         }
     }
 
-    protected void write(SyslogLevel level, byte[] message) throws SyslogRuntimeException {
+    protected void write(int level, byte[] message) throws SyslogRuntimeException {
         if (this.socket == null) {
                createDatagramSocket(false);
         }

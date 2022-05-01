@@ -19,8 +19,6 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Maps;
-import org.productivity.java.syslog4j.SyslogFacility;
-import org.productivity.java.syslog4j.SyslogLevel;
 import org.productivity.java.syslog4j.SyslogMessageProcessorIF;
 import org.productivity.java.syslog4j.SyslogRuntimeException;
 import org.productivity.java.syslog4j.impl.AbstractSyslog;
@@ -48,16 +46,16 @@ public class UnixSyslog extends AbstractSyslog {
     protected UnixSyslogConfig unixSyslogConfig = null;
 
     protected interface CLibrary extends Library {
-        public void openlog(final Memory ident, int option, int facility);
-        public void syslog(int priority, final String format, final String message);
-        public void closelog();
+        void openlog(final Memory ident, int option, int facility);
+        void syslog(int priority, final String format, final String message);
+        void closelog();
     }
 
-    private static SyslogFacility currentFacility = null;
+    private static int currentFacility = -1;
     private static boolean openlogCalled = false;
 
     private static CLibrary libraryInstance = null;
-    private static Map<String, Memory> identMap = Maps.newHashMap();
+    private static final Map<String, Memory> identMap = Maps.newHashMap();
 
     protected static synchronized void loadLibrary(UnixSyslogConfig config) throws SyslogRuntimeException {
         if (!OSDetectUtility.isUnix()) {
@@ -85,7 +83,7 @@ public class UnixSyslog extends AbstractSyslog {
         loadLibrary(this.unixSyslogConfig);
     }
 
-    protected static void write(SyslogLevel level, String message, UnixSyslogConfig config) throws SyslogRuntimeException {
+    protected static void write(int level, String message, UnixSyslogConfig config) throws SyslogRuntimeException {
         synchronized(libraryInstance) {
             if (currentFacility != config.getFacility()) {
                 if (openlogCalled) {
@@ -107,26 +105,25 @@ public class UnixSyslog extends AbstractSyslog {
 
 				if (ident != null && identBuffer == null) {
                     identBuffer = new Memory(128);
-                    identBuffer.setString(0, ident, false);
+                    identBuffer.setString(0, ident);
                     identMap.put(ident, identBuffer);
                 }
 
-                libraryInstance.openlog(identBuffer,config.getOption(),currentFacility.getValue());
+                libraryInstance.openlog(identBuffer,config.getOption(),currentFacility);
                 openlogCalled = true;
             }
 
-            int priority = (currentFacility == null ? 0 : currentFacility.getValue()) | (level == null ? 0 : level.getValue());
+            int priority = currentFacility | level;
 
             libraryInstance.syslog(priority,"%s",message);
         }
     }
 
-    protected void write(SyslogLevel level, byte[] message) throws SyslogRuntimeException {
+    protected void write(int level, byte[] message) throws SyslogRuntimeException {
         // NO-OP
     }
 
-    @Override
-    public void log(SyslogMessageProcessorIF messageProcessor, SyslogLevel level, String message) {
+    public void log(SyslogMessageProcessorIF messageProcessor, int level, String message) {
         write(level,message,this.unixSyslogConfig);
     }
 

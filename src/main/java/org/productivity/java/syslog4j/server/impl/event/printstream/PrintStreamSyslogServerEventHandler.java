@@ -21,6 +21,7 @@ import java.util.Date;
 import org.productivity.java.syslog4j.server.SyslogServerEventIF;
 import org.productivity.java.syslog4j.server.SyslogServerIF;
 import org.productivity.java.syslog4j.server.SyslogServerSessionEventHandlerIF;
+import org.productivity.java.syslog4j.util.SyslogUtility;
 
 /**
 * SystemOutSyslogServerEventHandler provides a simple example implementation
@@ -34,6 +35,8 @@ import org.productivity.java.syslog4j.server.SyslogServerSessionEventHandlerIF;
 * @version $Id: PrintStreamSyslogServerEventHandler.java,v 1.7 2010/11/28 22:07:57 cvs Exp $
 */
 public class PrintStreamSyslogServerEventHandler implements SyslogServerSessionEventHandlerIF {
+    private static final long serialVersionUID = 6036415838696050746L;
+
     protected PrintStream stream = null;
 
     public PrintStreamSyslogServerEventHandler(PrintStream stream) {
@@ -52,8 +55,8 @@ public class PrintStreamSyslogServerEventHandler implements SyslogServerSessionE
     @Override
     public void event(Object session, SyslogServerIF syslogServer, SocketAddress socketAddress, SyslogServerEventIF event) {
         String date = (event.getDate() == null ? new Date() : event.getDate()).toString();
-        String facility = event.getFacility().name();
-        String level = event.getLevel().name();
+        String facility = SyslogUtility.getFacilityString(event.getFacility());
+        String level = SyslogUtility.getLevelString(event.getLevel());
 
         this.stream.println("{" + facility + "} " + date + " " + level + " " + event.getMessage());
     }

@@ -48,11 +48,11 @@ public class UnixSocketSyslogConfig extends AbstractSyslogConfig {
         return UnixSocketSyslog.class;
     }
 
-    public UnixSocketSyslogConfig(SyslogFacility facility) {
+    public UnixSocketSyslogConfig(int facility) {
         this.facility = facility;
     }
 
-    public UnixSocketSyslogConfig(SyslogFacility facility, String path) {
+    public UnixSocketSyslogConfig(int facility, String path) {
         this.facility = facility;
         this.path = path;
     }

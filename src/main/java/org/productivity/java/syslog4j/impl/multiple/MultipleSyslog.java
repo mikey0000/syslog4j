@@ -16,8 +16,8 @@ package org.productivity.java.syslog4j.impl.multiple;
 
 import org.productivity.java.syslog4j.Syslog;
 import org.productivity.java.syslog4j.SyslogConfigIF;
+import org.productivity.java.syslog4j.SyslogConstants;
 import org.productivity.java.syslog4j.SyslogIF;
-import org.productivity.java.syslog4j.SyslogLevel;
 import org.productivity.java.syslog4j.SyslogMessageIF;
 import org.productivity.java.syslog4j.SyslogMessageProcessorIF;
 import org.productivity.java.syslog4j.SyslogRuntimeException;
@@ -34,6 +34,8 @@ import org.productivity.java.syslog4j.SyslogRuntimeException;
 * @version $Id: MultipleSyslog.java,v 1.10 2010/02/11 05:00:55 cvs Exp $
 */
 public class MultipleSyslog implements SyslogIF {
+    private static final long serialVersionUID = 587308197526365108L;
+
     protected String syslogProtocol = null;
     protected MultipleSyslogConfig multipleSyslogConfig = null;
 
@@ -53,71 +55,70 @@ public class MultipleSyslog implements SyslogIF {
     }
 
     public void debug(String message) {
-        log(SyslogLevel.DEBUG,message);
+        log(SyslogConstants.LEVEL_DEBUG,message);
     }
 
     public void debug(SyslogMessageIF message) {
-        log(SyslogLevel.DEBUG,message);
+        log(SyslogConstants.LEVEL_DEBUG,message);
     }
 
     public void critical(String message) {
-        log(SyslogLevel.CRITICAL,message);
+        log(SyslogConstants.LEVEL_CRITICAL,message);
     }
 
     public void critical(SyslogMessageIF message) {
-        log(SyslogLevel.CRITICAL,message);
+        log(SyslogConstants.LEVEL_CRITICAL,message);
     }
 
     public void error(String message) {
-        log(SyslogLevel.ERROR,message);
+        log(SyslogConstants.LEVEL_ERROR,message);
     }
 
     public void error(SyslogMessageIF message) {
-        log(SyslogLevel.ERROR,message);
+        log(SyslogConstants.LEVEL_ERROR,message);
     }
 
     public void alert(String message) {
-        log(SyslogLevel.ALERT,message);
+        log(SyslogConstants.LEVEL_ALERT,message);
     }
 
     public void alert(SyslogMessageIF message) {
-        log(SyslogLevel.ALERT,message);
+        log(SyslogConstants.LEVEL_ALERT,message);
     }
 
     public void notice(String message) {
-        log(SyslogLevel.NOTICE,message);
+        log(SyslogConstants.LEVEL_NOTICE,message);
     }
 
     public void notice(SyslogMessageIF message) {
-        log(SyslogLevel.NOTICE,message);
+        log(SyslogConstants.LEVEL_NOTICE,message);
     }
 
     public void emergency(String message) {
-        log(SyslogLevel.EMERGENCY,message);
+        log(SyslogConstants.LEVEL_EMERGENCY,message);
     }
 
     public void emergency(SyslogMessageIF message) {
-        log(SyslogLevel.EMERGENCY,message);
+        log(SyslogConstants.LEVEL_EMERGENCY,message);
     }
 
     public void info(String message) {
-        log(SyslogLevel.INFO,message);
+        log(SyslogConstants.LEVEL_INFO,message);
     }
 
     public void info(SyslogMessageIF message) {
-        log(SyslogLevel.INFO,message);
+        log(SyslogConstants.LEVEL_INFO,message);
     }
 
     public void warn(String message) {
-        log(SyslogLevel.WARN,message);
+        log(SyslogConstants.LEVEL_WARN,message);
     }
 
     public void warn(SyslogMessageIF message) {
-        log(SyslogLevel.WARN,message);
+        log(SyslogConstants.LEVEL_WARN,message);
     }
 
-    @Override
-    public void log(SyslogLevel level, String message) {
+    public void log(int level, String message) {
         for(int i=0; i<this.multipleSyslogConfig.getProtocols().size(); i++) {
             String protocol = (String) this.multipleSyslogConfig.getProtocols().get(i);
 
@@ -127,8 +128,7 @@ public class MultipleSyslog implements SyslogIF {
         }
     }
 
-    @Override
-    public void log(SyslogLevel level, SyslogMessageIF message) {
+    public void log(int level, SyslogMessageIF message) {
         for(int i=0; i<this.multipleSyslogConfig.getProtocols().size(); i++) {
             String protocol = (String) this.multipleSyslogConfig.getProtocols().get(i);
 
@@ -158,11 +158,11 @@ public class MultipleSyslog implements SyslogIF {
         }
     }
 
-    public void backLog(SyslogLevel level, String message, Throwable reasonThrowable) {
+    public void backLog(int level, String message, Throwable reasonThrowable) {
         // MultipleSyslog is an aggregator; backLog state will be handled by individual Syslog protocols
     }
 
-    public void backLog(SyslogLevel level, String message, String reason) {
+    public void backLog(int level, String message, String reason) {
         // MultipleSyslog is an aggregator; backLog state will be handled by individual Syslog protocols
     }
 

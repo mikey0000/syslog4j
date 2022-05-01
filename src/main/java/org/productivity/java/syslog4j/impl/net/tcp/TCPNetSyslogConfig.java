@@ -14,16 +14,12 @@
  */
 package org.productivity.java.syslog4j.impl.net.tcp;
 
+import com.google.common.base.Charsets;
 import org.productivity.java.syslog4j.SyslogConstants;
-import org.productivity.java.syslog4j.SyslogFacility;
 import org.productivity.java.syslog4j.SyslogIF;
 import org.productivity.java.syslog4j.impl.AbstractSyslogWriter;
 import org.productivity.java.syslog4j.impl.net.AbstractNetSyslogConfig;
 import org.productivity.java.syslog4j.util.SyslogUtility;
-
-import com.google.common.base.Charsets;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
 * TCPNetSyslogConfig is an extension of AbstractNetSyslogConfig that provides
 * configuration support for TCP/IP-based syslog clients.
@@ -43,7 +39,7 @@ public class TCPNetSyslogConfig extends AbstractNetSyslogConfig implements TCPNe
 
         byte [] systemDelimiterSequence  = delimiterSequence.getBytes(Charsets.UTF_8);
 
-        if (systemDelimiterSequence == null || systemDelimiterSequence.length < 1) {
+        if (systemDelimiterSequence.length < 1) {
             systemDelimiterSequence = SyslogConstants.TCP_DELIMITER_SEQUENCE_DEFAULT;
         }
 
@@ -73,17 +69,17 @@ public class TCPNetSyslogConfig extends AbstractNetSyslogConfig implements TCPNe
         //
     }
 
-    public TCPNetSyslogConfig(SyslogFacility facility, String host, int port) {
+    public TCPNetSyslogConfig(int facility, String host, int port) {
         super(facility, host, port);
         initialize();
     }
 
-    public TCPNetSyslogConfig(SyslogFacility facility, String host) {
+    public TCPNetSyslogConfig(int facility, String host) {
         super(facility, host);
         initialize();
     }
 
-    public TCPNetSyslogConfig(SyslogFacility facility) {
+    public TCPNetSyslogConfig(int facility) {
         super(facility);
         initialize();
     }
@@ -102,12 +98,10 @@ public class TCPNetSyslogConfig extends AbstractNetSyslogConfig implements TCPNe
         return TCPNetSyslog.class;
     }
 
-    @SuppressFBWarnings("EI_EXPOSE_REP")
     public byte[] getDelimiterSequence() {
         return this.delimiterSequence;
     }
 
-    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setDelimiterSequence(byte[] delimiterSequence) {
         this.delimiterSequence = delimiterSequence;
     }

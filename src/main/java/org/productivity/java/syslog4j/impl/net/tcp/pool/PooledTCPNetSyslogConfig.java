@@ -16,7 +16,6 @@ package org.productivity.java.syslog4j.impl.net.tcp.pool;
 
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.productivity.java.syslog4j.SyslogConstants;
-import org.productivity.java.syslog4j.SyslogFacility;
 import org.productivity.java.syslog4j.SyslogIF;
 import org.productivity.java.syslog4j.SyslogPoolConfigIF;
 import org.productivity.java.syslog4j.impl.net.tcp.TCPNetSyslogConfig;
@@ -49,15 +48,15 @@ public class PooledTCPNetSyslogConfig extends TCPNetSyslogConfig implements Sysl
         //
     }
 
-    public PooledTCPNetSyslogConfig(SyslogFacility facility, String host, int port) {
+    public PooledTCPNetSyslogConfig(int facility, String host, int port) {
         super(facility, host, port);
     }
 
-    public PooledTCPNetSyslogConfig(SyslogFacility facility, String host) {
+    public PooledTCPNetSyslogConfig(int facility, String host) {
         super(facility, host);
     }
 
-    public PooledTCPNetSyslogConfig(SyslogFacility facility) {
+    public PooledTCPNetSyslogConfig(int facility) {
         super(facility);
     }
 

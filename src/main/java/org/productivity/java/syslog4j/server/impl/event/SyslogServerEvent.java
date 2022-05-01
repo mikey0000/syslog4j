@@ -24,8 +24,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.productivity.java.syslog4j.SyslogFacility;
-import org.productivity.java.syslog4j.SyslogLevel;
+
 import org.productivity.java.syslog4j.server.SyslogServerEventIF;
 import org.productivity.java.syslog4j.util.SyslogUtility;
 
@@ -53,8 +52,8 @@ public class SyslogServerEvent implements SyslogServerEventIF {
     protected byte[] rawBytes = null;
     protected int rawLength = -1;
     protected Date date = null;
-    protected SyslogLevel level = SyslogLevel.INFO;
-    protected SyslogFacility facility = SyslogFacility.user;
+    protected int level = -1;
+    protected int facility = -1;
     protected String host = null;
     protected boolean isHostStrippedFromMessage = false;
     protected String message = null;
@@ -165,8 +164,8 @@ public class SyslogServerEvent implements SyslogServerEventIF {
                 int priority = 0;
                 try {
                     priority = Integer.parseInt(priorityStr);
-                    this.facility = SyslogFacility.forValue(priority & ~7);
-                    this.level = SyslogLevel.forValue(priority & 7);
+                    this.facility = priority >> 3;
+                    this.level = priority - (this.facility << 3);
 
                     this.message = this.message.substring(i+1);
                 } catch (NumberFormatException nfe) {
@@ -183,20 +182,18 @@ public class SyslogServerEvent implements SyslogServerEventIF {
         parseHost();
     }
 
-    public SyslogFacility getFacility() {
+    public int getFacility() {
         return this.facility;
     }
 
-    public void setFacility(SyslogFacility facility) {
+    public void setFacility(int facility) {
         this.facility = facility;
     }
 
     @SuppressFBWarnings("EI_EXPOSE_REP")
     public byte[] getRaw() {
         if (this.rawString != null) {
-            byte[] rawStringBytes = SyslogUtility.getBytes(this,this.rawString);
-
-            return rawStringBytes;
+            return SyslogUtility.getBytes(this,this.rawString);
 
         } else if (this.rawBytes.length == this.rawLength) {
             return this.rawBytes;
@@ -223,11 +220,11 @@ public class SyslogServerEvent implements SyslogServerEventIF {
         this.date = date;
     }
 
-    public SyslogLevel getLevel() {
+    public int getLevel() {
         return this.level;
     }
 
-    public void setLevel(SyslogLevel level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 

@@ -17,8 +17,6 @@ package org.productivity.java.syslog4j.server;
 import java.util.Date;
 
 import org.productivity.java.syslog4j.SyslogCharSetIF;
-import org.productivity.java.syslog4j.SyslogFacility;
-import org.productivity.java.syslog4j.SyslogLevel;
 
 /**
 * SyslogServerEventIF provides an extensible interface for Syslog4j
@@ -39,14 +37,14 @@ public interface SyslogServerEventIF extends SyslogCharSetIF {
      */
     public byte[] getRaw();
 
-    public SyslogFacility getFacility();
-    public void setFacility(SyslogFacility facility);
+    public int getFacility();
+    public void setFacility(int facility);
 
     public Date getDate();
     public void setDate(Date date);
 
-    public SyslogLevel getLevel();
-    public void setLevel(SyslogLevel level);
+    public int getLevel();
+    public void setLevel(int level);
 
     public String getHost();
     public void setHost(String host);

@@ -20,8 +20,6 @@ import static org.productivity.java.syslog4j.SyslogConstants.STRUCTURED_DATA_PRO
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.productivity.java.syslog4j.SyslogFacility;
-import org.productivity.java.syslog4j.SyslogLevel;
 import org.productivity.java.syslog4j.impl.message.processor.AbstractSyslogMessageProcessor;
 import org.productivity.java.syslog4j.impl.message.structured.StructuredSyslogMessage;
 /**
@@ -103,7 +101,7 @@ public class StructuredSyslogMessageProcessor extends AbstractSyslogMessageProce
     }
 
     @Override
-    public String createSyslogHeader(final SyslogFacility facility, final SyslogLevel level, String localName, String localProcessId, final boolean sendLocalTimestamp, final boolean sendLocalName) {
+    public String createSyslogHeader(final int facility, final int level, String localName, String localProcessId, final boolean sendLocalTimestamp, final boolean sendLocalName) {
         final StringBuffer buffer = new StringBuffer();
 
         appendPriority(buffer,facility,level);

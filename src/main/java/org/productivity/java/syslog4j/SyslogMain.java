@@ -14,12 +14,13 @@
  */
 package org.productivity.java.syslog4j;
 
+import com.google.common.base.Charsets;
+import org.productivity.java.syslog4j.util.SyslogUtility;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import com.google.common.base.Charsets;
 
 /**
  * This class provides a command-line interface for Syslog4j
@@ -37,8 +38,8 @@ public class SyslogMain {
     public static class Options {
         public String host = null;
         public String port = null;
-        public SyslogLevel level = SyslogLevel.INFO;
-        public SyslogFacility facility = SyslogFacility.user;
+        public String level = "INFO";
+        public String facility = "USER";
         public String protocol = null;
         public String message = null;
         public String fileName = null;
@@ -95,8 +96,8 @@ public class SyslogMain {
 
             if ("-h".equals(arg)) { if (i == args.length) { options.usage = "Must specify host with -h"; return options; } match = true; options.host = args[i++]; }
             if ("-p".equals(arg)) { if (i == args.length) { options.usage = "Must specify port with -p"; return options; } match = true; options.port = args[i++]; }
-            if ("-l".equals(arg)) { if (i == args.length) { options.usage = "Must specify level with -l"; return options; } match = true; options.level = SyslogLevel.forName(args[i++]); }
-            if ("-f".equals(arg)) { if (i == args.length) { options.usage = "Must specify facility with -f"; return options; } match = true; options.facility = SyslogFacility.forName(args[i++]); }
+            if ("-l".equals(arg)) { if (i == args.length) { options.usage = "Must specify level with -l"; return options; } match = true; options.level = args[i++]; }
+            if ("-f".equals(arg)) { if (i == args.length) { options.usage = "Must specify facility with -f"; return options; } match = true; options.facility = args[i++]; }
             if ("-i".equals(arg)) { if (i == args.length) { options.usage = "Must specify file with -i"; return options; } match = true; options.fileName = args[i++]; }
 
             if ("-q".equals(arg)) { match = true; options.quiet = true; }
@@ -164,6 +165,8 @@ public class SyslogMain {
             }
         }
 
+        int level = SyslogUtility.getLevel(options.level);
+
         syslogConfig.setFacility(options.facility);
 
         if (options.message != null) {
@@ -171,7 +174,7 @@ public class SyslogMain {
                 System.out.println("Sending " + options.facility + "." + options.level + " message \"" + options.message + "\"");
             }
 
-            syslog.log(options.level, options.message);
+            syslog.log(level,options.message);
 
         } else {
             InputStream is = null;
@@ -192,7 +195,7 @@ public class SyslogMain {
                         System.out.println("Sending " + options.facility + "." + options.level + " message \"" + line + "\"");
                     }
 
-                    syslog.log(options.level,line);
+                    syslog.log(level,line);
 
                     line = br.readLine();
                 }

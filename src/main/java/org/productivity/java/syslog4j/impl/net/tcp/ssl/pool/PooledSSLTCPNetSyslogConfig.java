@@ -14,7 +14,6 @@
  */
 package org.productivity.java.syslog4j.impl.net.tcp.ssl.pool;
 
-import org.productivity.java.syslog4j.SyslogFacility;
 import org.productivity.java.syslog4j.SyslogIF;
 import org.productivity.java.syslog4j.impl.AbstractSyslogWriter;
 import org.productivity.java.syslog4j.impl.net.tcp.pool.PooledTCPNetSyslogConfig;
@@ -44,15 +43,15 @@ public class PooledSSLTCPNetSyslogConfig extends PooledTCPNetSyslogConfig implem
         super();
     }
 
-    public PooledSSLTCPNetSyslogConfig(SyslogFacility facility, String host, int port) {
+    public PooledSSLTCPNetSyslogConfig(int facility, String host, int port) {
         super(facility, host, port);
     }
 
-    public PooledSSLTCPNetSyslogConfig(SyslogFacility facility, String host) {
+    public PooledSSLTCPNetSyslogConfig(int facility, String host) {
         super(facility, host);
     }
 
-    public PooledSSLTCPNetSyslogConfig(SyslogFacility facility) {
+    public PooledSSLTCPNetSyslogConfig(int facility) {
         super(facility);
     }
 

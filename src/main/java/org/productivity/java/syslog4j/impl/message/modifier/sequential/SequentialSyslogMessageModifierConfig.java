@@ -16,6 +16,7 @@ package org.productivity.java.syslog4j.impl.message.modifier.sequential;
 
 import org.productivity.java.syslog4j.SyslogConstants;
 import org.productivity.java.syslog4j.impl.message.modifier.AbstractSyslogMessageModifierConfig;
+
 /**
 * SequentialSyslogMessageModifierConfig is an implementation of AbstractSyslogMessageModifierConfig
 * that provides configuration for SequentialSyslogMessageModifier.
@@ -33,10 +34,9 @@ public class SequentialSyslogMessageModifierConfig extends AbstractSyslogMessage
     protected char padChar = SyslogConstants.SYSLOG_SEQUENTIAL_MESSAGE_MODIFIER_PAD_CHAR_DEFAULT;
     protected boolean usePadding = SyslogConstants.SYSLOG_SEQUENTIAL_MESSAGE_MODIFIER_USE_PADDING_DEFAULT;
 
-    public static final SequentialSyslogMessageModifierConfig createDefault() {
-        SequentialSyslogMessageModifierConfig modifierConfig = new SequentialSyslogMessageModifierConfig();
+    public static SequentialSyslogMessageModifierConfig createDefault() {
 
-        return modifierConfig;
+        return new SequentialSyslogMessageModifierConfig();
     }
 
     public SequentialSyslogMessageModifierConfig() {

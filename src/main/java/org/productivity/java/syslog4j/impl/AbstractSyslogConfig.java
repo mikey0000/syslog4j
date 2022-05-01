@@ -48,7 +48,7 @@ public abstract class AbstractSyslogConfig implements AbstractSyslogConfigIF {
         defaultBackLogHandlers.add(new SystemErrSyslogBackLogHandler());
     }
 
-    protected SyslogFacility facility = SyslogFacility.DEFAULT;
+    protected int facility = SyslogConstants.SYSLOG_FACILITY_DEFAULT;
 
     protected Charset charSet = Charsets.UTF_8;
 
@@ -170,14 +170,17 @@ public abstract class AbstractSyslogConfig implements AbstractSyslogConfigIF {
     }
 
     @Override
-    public SyslogFacility getFacility() {
+    public int getFacility() {
         return this.facility;
     }
 
     @Override
-    public void setFacility(SyslogFacility facility) {
+    public void setFacility(int facility) {
         this.facility = facility;
     }
+
+    @Override
+    public void setFacility(String facilityName) { this.facility = SyslogUtility.getFacility(facilityName); }
 
     public String getIdent() {
         return this.ident;

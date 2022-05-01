@@ -18,9 +18,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import org.productivity.java.syslog4j.SyslogFacility;
 import org.productivity.java.syslog4j.SyslogIF;
-import org.productivity.java.syslog4j.SyslogLevel;
 import org.productivity.java.syslog4j.SyslogRuntimeException;
 import org.productivity.java.syslog4j.impl.message.modifier.AbstractSyslogMessageModifier;
 import org.productivity.java.syslog4j.util.Base64;
@@ -38,6 +36,8 @@ import org.productivity.java.syslog4j.util.SyslogUtility;
 * @version $Id: HashSyslogMessageModifier.java,v 1.5 2010/10/28 05:10:57 cvs Exp $
 */
 public class HashSyslogMessageModifier extends AbstractSyslogMessageModifier {
+    private static final long serialVersionUID = 7335757344826206953L;
+
     protected HashSyslogMessageModifierConfig config = null;
 
     public static final HashSyslogMessageModifier createMD5() {
@@ -112,8 +112,7 @@ public class HashSyslogMessageModifier extends AbstractSyslogMessageModifier {
         return this.config;
     }
 
-    @Override
-    public String modify(SyslogIF syslog, SyslogFacility facility, SyslogLevel level, String message) {
+    public String modify(SyslogIF syslog, int facility, int level, String message) {
         byte[] messageBytes = SyslogUtility.getBytes(syslog.getConfig(),message);
 
         MessageDigest digest = obtainMessageDigest();

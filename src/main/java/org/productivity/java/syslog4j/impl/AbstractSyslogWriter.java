@@ -16,7 +16,7 @@ package org.productivity.java.syslog4j.impl;
 
 import java.util.List;
 
-import org.productivity.java.syslog4j.SyslogLevel;
+import org.productivity.java.syslog4j.SyslogConstants;
 import org.productivity.java.syslog4j.SyslogRuntimeException;
 import org.productivity.java.syslog4j.util.SyslogUtility;
 
@@ -62,7 +62,7 @@ public abstract class AbstractSyslogWriter implements Runnable {
         }
     }
 
-    public void queue(SyslogLevel level, byte[] message) {
+    public void queue(int level, byte[] message) {
         synchronized(this.queuedMessages) {
             if (this.syslogConfig.getMaxQueueSize() == -1 || this.queuedMessages.size() < this.syslogConfig.getMaxQueueSize()) {
                 this.queuedMessages.add(message);
@@ -108,7 +108,7 @@ public abstract class AbstractSyslogWriter implements Runnable {
                         this.syslog.setBackLogStatus(false);
 
                     } catch (SyslogRuntimeException sre) {
-                        this.syslog.backLog(SyslogLevel.INFO, SyslogUtility.newString(this.syslog.getConfig(), message), sre);
+                        this.syslog.backLog(SyslogConstants.LEVEL_INFO,SyslogUtility.newString(this.syslog.getConfig(),message),sre);
                     }
                 }
             }

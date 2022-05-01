@@ -1,35 +1,20 @@
-/**
- *
- * (C) Copyright 2008-2011 syslog4j.org
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser General Public License
- * (LGPL) version 2.1 which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-2.1.html
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- */
 package org.productivity.java.syslog4j.impl.unix.socket;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.base.Charsets;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.productivity.java.syslog4j.SyslogLevel;
 import org.productivity.java.syslog4j.SyslogRuntimeException;
 import org.productivity.java.syslog4j.impl.AbstractSyslog;
 import org.productivity.java.syslog4j.impl.AbstractSyslogWriter;
 import org.productivity.java.syslog4j.util.OSDetectUtility;
 
-import com.google.common.base.Charsets;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Structure;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
 * UnixSocketSyslog is an extension of AbstractSyslog that provides support for
@@ -65,11 +50,11 @@ public class UnixSocketSyslog extends AbstractSyslog {
     }
 
     protected interface CLibrary extends Library {
-        public int socket(int domain, int type, int protocol);
-        public int connect(int sockfd, SockAddr sockaddr, int addrlen);
-        public int write(int fd, ByteBuffer buffer, int count);
-        public int close(int fd);
-        public String strerror(int errno);
+        int socket(int domain, int type, int protocol);
+        int connect(int sockfd, SockAddr sockaddr, int addrlen);
+        int write(int fd, ByteBuffer buffer, int count);
+        int close(int fd);
+        String strerror(int errno);
     }
 
     protected boolean libraryLoaded = false;
@@ -126,7 +111,7 @@ public class UnixSocketSyslog extends AbstractSyslog {
         }
     }
 
-    protected synchronized void write(SyslogLevel level, byte[] message) throws SyslogRuntimeException {
+    protected void write(int level, byte[] message) throws SyslogRuntimeException {
         if (this.fd == -1) {
             connect();
         }

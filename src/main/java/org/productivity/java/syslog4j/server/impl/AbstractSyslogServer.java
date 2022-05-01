@@ -39,6 +39,8 @@ import org.productivity.java.syslog4j.server.impl.event.SyslogServerEvent;
 import org.productivity.java.syslog4j.server.impl.event.structured.StructuredSyslogServerEvent;
 import org.productivity.java.syslog4j.util.SyslogUtility;
 
+import com.google.common.collect.Maps;
+
 /**
 * AbstractSyslogServer provides a base abstract implementation of the SyslogServerIF.
 *
